@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PS.All_Films.Web.BusinessLogic.Interfaces;
-using PS.All_Films.Web.BusinessLogic.Repositories;
 using PS.All_Films.Web.Models;
 
 namespace PS.All_Films.Web.Controllers
@@ -10,7 +9,7 @@ namespace PS.All_Films.Web.Controllers
 
         private readonly IMovie _context;
 
-        public MovieController(MovieRepository context)
+        public MovieController(IMovie context)
         {
             _context = context;
         }
