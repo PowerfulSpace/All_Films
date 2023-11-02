@@ -29,6 +29,8 @@
     function ChangePageSize(obj) {
         var controllerName = '@this.ViewContext.RouteData.Values["controller"].ToString()';
 
-        window.location.href = "/" + controllerName + "/@Model.Action" + "?pageSize=" + obj.value + "&searchText=" + "@Model.SearchText" + "&sortExpression=" + "@Model.SortExpression";
+        // window.location.href = "/" + controllerName + "/@Model.Action" + "?pageSize=" + obj.value + "&searchText=" + "@Model.SearchText" + "&sortExpression=" + "@Model.SortExpression";
+
+        window.location.href = "/" + controllerName + "/@Model.Action" + "?sortExpression=" + "@Model.SortExpression" + "&searchText=" + "@Model.SearchText" + "&currentPage=" + "@Model.CurrentPage" + "&pageSize=" + obj.value;
     }
 </script>
