@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using PS.All_Films.Web.BusinessLogic.Interfaces;
 using PS.All_Films.Web.Data;
 using PS.All_Films.Web.Models;
@@ -16,27 +17,72 @@ namespace PS.All_Films.Web.BusinessLogic.Repositories
 
         public async Task<PaginatedList<Movie>> GetItemsAsync(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+            List<Movie> items;
+
+            if (searchText != "" && searchText != null)
+            {
+                items = _context.Movies
+                    .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
+                    .ToList();
+            }
+            else
+            {
+                items = _context.Movies.ToList();
+            }
+
+            items = await DoSortAsync(items, sortProperty, order);
+
+            PaginatedList<Movie> retUnits = new PaginatedList<Movie>(items, pageIndex, pageSize);
+
+            return retUnits;
         }
 
         public async Task<Movie> GetItemAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Movie> DeleteAsync(Movie unit)
+        public async Task<Movie> GreateAsync(Movie item)
         {
-            throw new NotImplementedException();
+            await _context.Movies.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return item;
         }
 
-        public async Task<Movie> EditAsync(Movie unit)
+        public async Task<Movie> EditAsync(Movie item)
         {
-            throw new NotImplementedException();
+            _context.Movies.Attach(item);
+            _context.Entry(item).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return item;
         }
 
-        public async Task<Movie> GreateAsync(Movie unit)
+        public async Task<Movie> DeleteAsync(Movie item)
         {
-            throw new NotImplementedException();
+            _context.Movies.Attach(item);
+            _context.Entry(item).State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+
+        private async Task<List<Movie>> DoSortAsync(List<Movie> items, string sortProperty, SortOrder order)
+        {
+            if (sortProperty.ToLower() == "name")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Name).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Name).ToList();
+            }
+            else if (sortProperty.ToLower() == "description")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Description).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Description).ToList();
+            }
+            return items;
         }
     }
 }
