@@ -18,6 +18,7 @@ namespace PS.All_Films.Web.Controllers
             SortModel sortModel = new SortModel();
             sortModel.AddColumn("name");
             sortModel.AddColumn("description");
+            sortModel.AddColumn("rating");
             sortModel.ApplySort(sortExpression);
 
             var movies = await _context.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);

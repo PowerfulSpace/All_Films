@@ -82,6 +82,13 @@ namespace PS.All_Films.Web.BusinessLogic.Repositories
                 else
                     items = items.OrderByDescending(x => x.Description).ToList();
             }
+            else if (sortProperty.ToLower() == "rating")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Rating).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Rating).ToList();
+            }
             return items;
         }
     }

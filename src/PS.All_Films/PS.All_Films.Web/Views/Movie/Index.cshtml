@@ -34,7 +34,10 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rating)
+                <i class="@sortModel.GetColumn("rating").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("rating").SortExpression">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
             </th>
             <th></th>
         </tr>
