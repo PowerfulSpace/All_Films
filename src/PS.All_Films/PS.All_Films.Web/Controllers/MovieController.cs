@@ -30,6 +30,7 @@ namespace PS.All_Films.Web.Controllers
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
             ViewBag.Pager = pager;
+            TempData["CurrentPage"] = currentPage;
 
             return View(movies);
         }
@@ -57,6 +58,7 @@ namespace PS.All_Films.Web.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var movie = await _context.GetItemAsync(id);
+            TempData.Keep("CurrentPage");
 
             if (movie != null)
             {
@@ -71,6 +73,7 @@ namespace PS.All_Films.Web.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var movie = await _context.GetItemAsync(id);
+            TempData.Keep("CurrentPage");
 
             if (movie != null)
             {
@@ -90,13 +93,20 @@ namespace PS.All_Films.Web.Controllers
             }
             catch { }
 
-            return RedirectToAction(nameof(Index));
+            var currentPage = 1;
+            if (TempData["CurrentPage"] != null)
+            {
+                currentPage = (int)TempData["CurrentPage"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
             var movie = await _context.GetItemAsync(id);
+            TempData.Keep("CurrentPage");
 
             if (movie != null)
             {
@@ -115,7 +125,13 @@ namespace PS.All_Films.Web.Controllers
             }
             catch { }
 
-            return RedirectToAction(nameof(Index));
+            var currentPage = 1;
+            if (TempData["CurrentPage"] != null)
+            {
+                currentPage = (int)TempData["CurrentPage"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
         }
     }
 }
