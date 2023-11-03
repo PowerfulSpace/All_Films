@@ -21,7 +21,7 @@ namespace PS.All_Films.Web.Controllers
             sortModel.AddColumn("rating");
             sortModel.ApplySort(sortExpression);
 
-            var movies = await _context.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
+            PaginatedList<Movie> movies = await _context.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
 
             var pager = new PagerModel(movies.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
@@ -30,6 +30,9 @@ namespace PS.All_Films.Web.Controllers
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
             ViewBag.Pager = pager;
+
+
+
             TempData["CurrentPage"] = currentPage;
 
             return View(movies);

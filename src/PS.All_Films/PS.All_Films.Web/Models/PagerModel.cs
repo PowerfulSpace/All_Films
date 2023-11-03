@@ -63,12 +63,31 @@ namespace PS.All_Films.Web.Models
             {
                 StartPage = startPage;
                 EndPage = endPage;
+
+                if (totalItems <= pageSize)
+                {
+                    StartRecord = 1;
+                    EndRecord = totalItems;
+                    StartPage = 1;
+                    CurrentPage = 1;
+                }
+                if(totalItems < currentPage * pageSize)
+                {
+                    StartRecord = (EndPage * pageSize) - (pageSize - 1);
+                    CurrentPage = EndPage;
+                }
             }
         }
 
         public List<SelectListItem> GetPageSizes()
         {
             List<SelectListItem> pageSizes = new List<SelectListItem>();
+
+            if (2 == PageSize)
+                pageSizes.Add(new SelectListItem(2.ToString(), 2.ToString(), true));
+            else
+                pageSizes.Add(new SelectListItem(2.ToString(), 2.ToString()));
+
 
             for (int i = 5; i <= 50; i += 5)
             {
