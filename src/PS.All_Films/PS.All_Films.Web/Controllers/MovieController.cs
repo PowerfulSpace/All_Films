@@ -25,15 +25,19 @@ namespace PS.All_Films.Web.Controllers
 
             var pager = new PagerModel(movies.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
-
+            ViewBag.Pager = pager;
 
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
-            ViewBag.Pager = pager;
 
+            TempData["searchText"] = searchText;
+            TempData.Keep("searchText");
 
+            TempData["pageSize"] = pageSize;
+            TempData.Keep("pageSize");
 
             TempData["CurrentPage"] = currentPage;
+            TempData.Keep("CurrentPage");
 
             return View(movies);
         }
@@ -62,6 +66,8 @@ namespace PS.All_Films.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("pageSize");
+            TempData.Keep("searchText");
 
             if (movie != null)
             {
@@ -77,6 +83,8 @@ namespace PS.All_Films.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("pageSize");
+            TempData.Keep("searchText");
 
             if (movie != null)
             {
@@ -102,7 +110,13 @@ namespace PS.All_Films.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+            var pageSize = 1;
+            if (TempData["pageSize"] != null)
+            {
+                pageSize = (int)TempData["pageSize"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("searchText") });
         }
 
         [HttpGet]
@@ -110,6 +124,8 @@ namespace PS.All_Films.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("pageSize");
+            TempData.Keep("searchText");
 
             if (movie != null)
             {
@@ -134,7 +150,13 @@ namespace PS.All_Films.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+            var pageSize = 1;
+            if (TempData["pageSize"] != null)
+            {
+                pageSize = (int)TempData["pageSize"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("searchText") });
         }
     }
 }
