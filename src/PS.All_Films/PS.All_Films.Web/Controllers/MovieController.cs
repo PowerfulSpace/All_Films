@@ -25,6 +25,7 @@ namespace PS.All_Films.Web.Controllers
 
             var pager = new PagerModel(movies.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
+            pager.SearchText = searchText;
             ViewBag.Pager = pager;
 
             ViewData["sortModel"] = sortModel;
