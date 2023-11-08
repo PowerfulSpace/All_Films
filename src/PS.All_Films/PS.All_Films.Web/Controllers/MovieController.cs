@@ -111,7 +111,7 @@ namespace PS.All_Films.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            var pageSize = 1;
+            var pageSize = 5;
             if (TempData["pageSize"] != null)
             {
                 pageSize = (int)TempData["pageSize"]!;
@@ -151,7 +151,7 @@ namespace PS.All_Films.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            var pageSize = 1;
+            var pageSize = 5;
             if (TempData["pageSize"] != null)
             {
                 pageSize = (int)TempData["pageSize"]!;
