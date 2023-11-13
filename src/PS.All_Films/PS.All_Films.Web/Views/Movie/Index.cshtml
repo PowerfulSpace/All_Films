@@ -28,19 +28,19 @@
         <tr>
             <th>
                 <i class="@sortModel.GetColumn("name").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression">
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
                 <i class="@sortModel.GetColumn("description").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("description").SortExpression">
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("description").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">
                     @Html.DisplayNameFor(model => model.Description)
                 </a>
             </th>
             <th>
                 <i class="@sortModel.GetColumn("rating").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("rating").SortExpression">
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("rating").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">
                     @Html.DisplayNameFor(model => model.Rating)
                 </a>
             </th>
